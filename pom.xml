@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>se.jfokus.workshop</groupId>
+    <artifactId>rest-assured-open-api-generator-talk</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>credit-api-tests</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+
+        <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
+        <wagon-maven-plugin.version>2.0.2</wagon-maven-plugin.version>
+        <openapi-generator-maven-plugin.version>6.3.0</openapi-generator-maven-plugin.version>
+
+        <junit.version>5.9.2</junit.version>
+        <rest-assured.version>5.3.0</rest-assured.version>
+        <assertj-core.version>3.24.2</assertj-core.version>
+        <lombok.version>1.18.26</lombok.version>
+        <jackson-databind.version>2.14.2</jackson-databind.version>
+        <swagger-annotations.version>1.6.6</swagger-annotations.version>
+        <javax.annotation-api>1.3.2</javax.annotation-api>
+        <jsr305.version>3.0.2</jsr305.version>
+        <jackson-datatype-jsr310.version>2.14.2</jackson-datatype-jsr310.version>
+        <jackson-databind-nullable.version>0.2.4</jackson-databind-nullable.version>
+    </properties>
+
+    <dependencies>
+
+        <!-- Testing libraries -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${rest-assured.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj-core.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Runtime libraries -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- OpenAPI generation libraries -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-databind.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${swagger-annotations.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>${javax.annotation-api}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>${jsr305.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson-datatype-jsr310.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>${jackson-databind-nullable.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>wagon-maven-plugin</artifactId>
+                <version>${wagon-maven-plugin.version}</version>
+
+                <executions>
+                    <execution>
+                        <id>download-credit-api-spec</id>
+                        <goals>
+                            <goal>download-single</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <url>
+                                https://raw.githubusercontent.com/eliasnogueira/credit-api/main/src/main/resources/static/credit-api.yaml
+                            </url>
+                            <toDir>${project.basedir}/target/openapiSpecs</toDir>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>${openapi-generator-maven-plugin.version}</version>
+
+                <executions>
+                    <execution>
+                        <id>generate-client-api-code</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <inputSpec>
+                                ${project.build.directory}/openapiSpecs/credit-api.yaml
+                            </inputSpec>
+                            <invokerPackage>com.eliasnogueira.credit.invoker</invokerPackage>
+                            <apiPackage>com.eliasnogueira.credit.api</apiPackage>
+                            <modelPackage>com.eliasnogueira.credit.model</modelPackage>
+                            <generatorName>java</generatorName>
+                            <generateApiTests>false</generateApiTests>
+                            <generateModelTests>false</generateModelTests>
+                            <configOptions>
+                                <library>rest-assured</library>
+                                <serializationLibrary>jackson</serializationLibrary>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
