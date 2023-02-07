@@ -15,8 +15,10 @@
         <maven.compiler.source>17</maven.compiler.source>
 
         <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
-        <wagon-maven-plugin.version>2.0.2</wagon-maven-plugin.version>
-        <openapi-generator-maven-plugin.version>6.3.0</openapi-generator-maven-plugin.version>
+
+        <kiota.utils.version>0.1.6</kiota.utils.version>
+        <kiota.library.version>0.2.0</kiota.library.version>
+        <findbugs.version>3.0.0</findbugs.version>
 
         <junit.version>5.9.2</junit.version>
         <rest-assured.version>5.3.0</rest-assured.version>
@@ -30,7 +32,45 @@
         <jackson-databind-nullable.version>0.2.4</jackson-databind-nullable.version>
     </properties>
 
+    <pluginRepositories>
+        <pluginRepository>
+          <id>jitpack.io</id>
+          <url>https://jitpack.io</url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <dependencies>
+
+        <dependency>
+            <groupId>com.microsoft.kiota</groupId>
+            <artifactId>microsoft-kiota-abstractions</artifactId>
+            <version>${kiota.library.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>com.microsoft.kiota</groupId>
+            <artifactId>microsoft-kiota-serialization-json</artifactId>
+            <version>${kiota.library.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>com.microsoft.kiota</groupId>
+            <artifactId>microsoft-kiota-serialization-text</artifactId>
+            <version>${kiota.library.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>com.microsoft.kiota</groupId>
+            <artifactId>microsoft-kiota-serialization-form</artifactId>
+            <version>${kiota.library.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>com.microsoft.kiota</groupId>
+            <artifactId>microsoft-kiota-http-okHttp</artifactId>
+            <version>${kiota.library.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>${findbugs.version}</version>
+          </dependency>
 
         <!-- Testing libraries -->
         <dependency>
@@ -113,57 +153,23 @@
             </plugin>
 
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>wagon-maven-plugin</artifactId>
-                <version>${wagon-maven-plugin.version}</version>
-
+                <artifactId>kiota-maven-plugin</artifactId>
+                <groupId>com.github.andreaTP.kiota-utils</groupId>
+                <version>${kiota.utils.version}</version>
                 <executions>
-                    <execution>
-                        <id>download-credit-api-spec</id>
-                        <goals>
-                            <goal>download-single</goal>
-                        </goals>
-                        <phase>generate-sources</phase>
-                        <configuration>
-                            <url>
-                                https://raw.githubusercontent.com/eliasnogueira/credit-api/main/src/main/resources/static/credit-api.yaml
-                            </url>
-                            <toDir>${project.basedir}/target/openapiSpecs</toDir>
-                        </configuration>
-                    </execution>
+                <execution>
+                    <goals>
+                        <goal>generate</goal>
+                    </goals>
+                </execution>
                 </executions>
+                <configuration>
+                    <url>https://raw.githubusercontent.com/eliasnogueira/credit-api/main/src/main/resources/static/credit-api.yaml</url>
+                    <namespace>com.eliasnogueira.credit</namespace>
+                    <clientClass>RestrictionsApi</clientClass>
+                </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>org.openapitools</groupId>
-                <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>${openapi-generator-maven-plugin.version}</version>
-
-                <executions>
-                    <execution>
-                        <id>generate-client-api-code</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <phase>generate-sources</phase>
-                        <configuration>
-                            <inputSpec>
-                                ${project.build.directory}/openapiSpecs/credit-api.yaml
-                            </inputSpec>
-                            <invokerPackage>com.eliasnogueira.credit.invoker</invokerPackage>
-                            <apiPackage>com.eliasnogueira.credit.api</apiPackage>
-                            <modelPackage>com.eliasnogueira.credit.model</modelPackage>
-                            <generatorName>java</generatorName>
-                            <generateApiTests>false</generateApiTests>
-                            <generateModelTests>false</generateModelTests>
-                            <configOptions>
-                                <library>rest-assured</library>
-                                <serializationLibrary>jackson</serializationLibrary>
-                            </configOptions>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 

@@ -23,7 +23,7 @@
  */
 package se.jfokus.workshop.restriction.architecture;
 
-import com.eliasnogueira.credit.model.MessageV1;
+import com.eliasnogueira.credit.models.MessageV1;
 import org.junit.jupiter.api.Test;
 import se.jfokus.workshop.api.service.RestrictionsApiService;
 

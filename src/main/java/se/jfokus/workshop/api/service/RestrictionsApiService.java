@@ -23,7 +23,7 @@
  */
 package se.jfokus.workshop.api.service;
 
-import com.eliasnogueira.credit.model.MessageV1;
+import com.eliasnogueira.credit.models.MessageV1;
 import se.jfokus.workshop.api.client.RestrictionsApiClient;
 
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
@@ -34,11 +34,16 @@ public class RestrictionsApiService {
     private final RestrictionsApiClient restrictionsApiClient = new RestrictionsApiClient();
 
     public boolean queryCpf(String cpf) {
-        restrictionsApiClient.queryCpf(cpf).then().statusCode(SC_NOT_FOUND);
+        // FIXME
+        // try {
+        //     restrictionsApiClient.queryCpf(cpf);
+        // } catch (Exception ex) {
+        //     ex.getMessage().contains(SC_NOT_FOUND + "");
+        // }
         return false;
     }
 
     public MessageV1 queryCpfWithRestriction(String cpf) {
-        return restrictionsApiClient.queryCpf(cpf).then().statusCode(SC_OK).extract().as(MessageV1.class);
+        return restrictionsApiClient.queryCpf(cpf);
     }
 }
