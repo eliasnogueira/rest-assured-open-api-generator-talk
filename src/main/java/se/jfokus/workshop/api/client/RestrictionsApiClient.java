@@ -23,17 +23,25 @@
  */
 package se.jfokus.workshop.api.client;
 
-import com.eliasnogueira.credit.api.RestrictionsApi;
-import io.restassured.response.Response;
-import se.jfokus.workshop.api.RestApiClientBuilder;
+import com.eliasnogueira.credit.RestrictionsApi;
+import com.eliasnogueira.credit.models.MessageV1;
+import com.microsoft.kiota.RequestAdapter;
+import com.microsoft.kiota.authentication.AnonymousAuthenticationProvider;
+import com.microsoft.kiota.http.OkHttpRequestAdapter;
 
-import static java.util.function.Function.identity;
+import java.util.concurrent.TimeUnit;
 
 public class RestrictionsApiClient {
 
-    private final RestrictionsApi restrictionsApi = new RestApiClientBuilder().build(RestrictionsApi::restrictions);
+    private final RequestAdapter adapter  = new OkHttpRequestAdapter(new AnonymousAuthenticationProvider());
 
-    public Response queryCpf(String cpf) {
-        return restrictionsApi.oneUsingGET().cpfPath(cpf).execute(identity());
+    private final RestrictionsApi restrictionsApi = new RestrictionsApi(adapter);
+
+    public MessageV1 queryCpf(String cpf) {
+        try {
+            return restrictionsApi.api().v1().restrictions(cpf).get().get(1, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
