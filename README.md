@@ -4,6 +4,72 @@ This repo is directly linked with the [How to fast generate your API Test with O
 
 Please, take a look at the presentation.
 
+## Backend project
+
+The backend project was created using SpringBoot 3 and an in-memory database. You access it at [https://github.com/eliasnogueira/credit-api](https://github.com/eliasnogueira/credit-api).
+
+You can use **one of the following approaches** to use the application:
+
+### Docker Image
+
+1. Start your Docker Desktop
+2. Pull the [eliasnogueira/combined-credit-api](https://hub.docker.com/r/eliasnogueira/combined-credit-api)^140MB^ from Docker Hub
+```
+docker pull eliasnogueira/combined-credit-api
+```
+3. Start the application container
+```
+docker run --name credit-api -p 8088:8088 -d eliasnogueira/combined-credit-api
+```
+4. If you need to stop it, run
+```
+docker stop credit-api
+```
+
+### JAR file
+
+1. Open the project package session on GitHub: [https://github.com/eliasnogueira/credit-api/packages/1742648](https://github.com/eliasnogueira/credit-api/packages/1742648)
+2. In the *Assets* session, download the `.jar` file
+3. Open the Terminal and navigate to the folder the file was saved
+```
+cd Downloads
+```
+4. Start the application by running the following:
+```
+java -jar file-name.jar
+```
+
+### Direct project usage
+
+1. Clone the backend project running one of the following cloning methods:
+
+    HTTPS
+    ```
+    git clone https://github.com/eliasnogueira/credit-api.git
+    ```
+ 
+    SSH
+    ```
+    git clone git@github.com:eliasnogueira/credit-api.git
+    ```
+
+    GitHub CLI
+    ```
+    gh repo clone eliasnogueira/credit-api
+    ```
+    Download ZIP"
+    [https://github.com/eliasnogueira/credit-api/archive/refs/heads/main.zip](https://github.com/eliasnogueira/credit-api/archive/refs/heads/main.zip)
+
+2. Open the Terminal and navigate to the project directory
+3. Run the application
+```
+mvn spring-boot:run
+```
+
+!!! note "Running inside the IDE"
+
+You can also run the `CreditApiApplication` class located at `src/main/java`
+
 ## What will you find here
 
 ### Source
