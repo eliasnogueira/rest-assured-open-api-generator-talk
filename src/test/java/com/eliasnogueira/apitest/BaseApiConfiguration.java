@@ -21,35 +21,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package se.jfokus.workshop.restriction.raw;
+package com.eliasnogueira.apitest;
 
-import org.apache.http.HttpStatus;
-import org.hamcrest.CoreMatchers;
-import org.junit.jupiter.api.Test;
-import se.jfokus.workshop.BaseApiConfiguration;
+import io.restassured.config.JsonConfig;
+import io.restassured.config.RestAssuredConfig;
+import io.restassured.filter.log.RequestLoggingFilter;
+import io.restassured.filter.log.ResponseLoggingFilter;
+import io.restassured.path.json.config.JsonPathConfig;
+import org.junit.jupiter.api.BeforeAll;
 
-import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.*;
 
-class RestrictionsTest extends BaseApiConfiguration {
+public class BaseApiConfiguration {
 
-    @Test
-    void shouldQueryCpfWithoutRestriction() {
-        given()
-            .param("cpf", "1234567890")
-        .when()
-            .get("/restrictions/{cpf}")
-        .then()
-            .statusCode(HttpStatus.SC_NOT_FOUND);
-    }
+    @BeforeAll
+    static void mainConfiguration() {
+        baseURI = "http://localhost";
+        basePath = "/api/v1";
+        port = 8088;
 
-    @Test
-    void shouldReturnRestriction() {
-        given()
-            .param("cpf", "60094146012")
-        .when()
-            .get("/restrictions/{cpf}")
-        .then()
-            .statusCode(HttpStatus.SC_OK)
-            .body("message", CoreMatchers.is("60094146012"));
+        config = RestAssuredConfig.newConfig().jsonConfig(
+                JsonConfig.jsonConfig().numberReturnType(JsonPathConfig.NumberReturnType.BIG_DECIMAL));
+
+        enableLoggingOfRequestAndResponseIfValidationFails();
+
+        filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
     }
 }

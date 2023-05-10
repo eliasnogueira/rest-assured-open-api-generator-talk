@@ -21,19 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package se.jfokus.workshop.api.client;
+package com.eliasnogueira.apitest.models;
 
-import com.eliasnogueira.credit.api.RestrictionsApi;
-import io.restassured.response.Response;
-import se.jfokus.workshop.api.RestApiClientBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import static java.util.function.Function.identity;
+import java.math.BigDecimal;
 
-public class RestrictionsApiClient {
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Simulation {
 
-    private final RestrictionsApi restrictionsApi = new RestApiClientBuilder().build(RestrictionsApi::restrictions);
-
-    public Response queryCpf(String cpf) {
-        return restrictionsApi.oneUsingGET().cpfPath(cpf).execute(identity());
-    }
+    private String name;
+    private String cpf;
+    private String email;
+    private BigDecimal amount;
+    private int installments;
+    private boolean insurance;
 }

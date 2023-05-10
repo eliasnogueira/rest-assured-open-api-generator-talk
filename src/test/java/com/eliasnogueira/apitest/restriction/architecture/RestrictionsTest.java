@@ -21,24 +21,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package se.jfokus.workshop.api.service;
+package com.eliasnogueira.apitest.restriction.architecture;
 
 import com.eliasnogueira.credit.model.MessageV1;
-import se.jfokus.workshop.api.client.RestrictionsApiClient;
+import org.junit.jupiter.api.Test;
+import com.eliasnogueira.apitest.api.service.RestrictionsApiService;
 
-import static org.apache.http.HttpStatus.SC_NOT_FOUND;
-import static org.apache.http.HttpStatus.SC_OK;
+import static org.assertj.core.api.Assertions.assertThat;
 
-public class RestrictionsApiService {
+class RestrictionsTest {
 
-    private final RestrictionsApiClient restrictionsApiClient = new RestrictionsApiClient();
+    private final RestrictionsApiService restrictionsApiService = new RestrictionsApiService();
 
-    public boolean queryCpf(String cpf) {
-        restrictionsApiClient.queryCpf(cpf).then().statusCode(SC_NOT_FOUND);
-        return false;
+    @Test
+    void shouldReturnRestriction() {
+        String cpf = "60094146012";
+        MessageV1 message = restrictionsApiService.queryCpfWithRestriction(cpf);
+
+        assertThat(message.getMessage()).contains(cpf);
     }
 
-    public MessageV1 queryCpfWithRestriction(String cpf) {
-        return restrictionsApiClient.queryCpf(cpf).then().statusCode(SC_OK).extract().as(MessageV1.class);
+    @Test
+    void shouldReturnNoRestriction() {
+        boolean isRestricted = restrictionsApiService.queryCpf("123456789");
+        assertThat(isRestricted).isFalse();
     }
 }

@@ -21,25 +21,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package se.jfokus.workshop.models;
+package com.eliasnogueira.apitest.api.service;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.eliasnogueira.apitest.api.client.RestrictionsApiClient;
+import com.eliasnogueira.credit.model.MessageV1;
 
-import java.math.BigDecimal;
+import static org.apache.http.HttpStatus.SC_NOT_FOUND;
+import static org.apache.http.HttpStatus.SC_OK;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class Simulation {
+public class RestrictionsApiService {
 
-    private String name;
-    private String cpf;
-    private String email;
-    private BigDecimal amount;
-    private int installments;
-    private boolean insurance;
+    private final RestrictionsApiClient restrictionsApiClient = new RestrictionsApiClient();
+
+    public boolean queryCpf(String cpf) {
+        restrictionsApiClient.queryCpf(cpf).then().statusCode(SC_NOT_FOUND);
+        return false;
+    }
+
+    public MessageV1 queryCpfWithRestriction(String cpf) {
+        return restrictionsApiClient.queryCpf(cpf).then().statusCode(SC_OK).extract().as(MessageV1.class);
+    }
 }

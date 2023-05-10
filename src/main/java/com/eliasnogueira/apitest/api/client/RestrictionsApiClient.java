@@ -21,29 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package se.jfokus.workshop.restriction.architecture;
+package com.eliasnogueira.apitest.api.client;
 
-import com.eliasnogueira.credit.model.MessageV1;
-import org.junit.jupiter.api.Test;
-import se.jfokus.workshop.api.service.RestrictionsApiService;
+import com.eliasnogueira.apitest.api.RestApiClientBuilder;
+import com.eliasnogueira.credit.api.RestrictionsApi;
+import io.restassured.response.Response;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.util.function.Function.identity;
 
-class RestrictionsTest {
+public class RestrictionsApiClient {
 
-    private final RestrictionsApiService restrictionsApiService = new RestrictionsApiService();
+    private final RestrictionsApi restrictionsApi = new RestApiClientBuilder().build(RestrictionsApi::restrictions);
 
-    @Test
-    void shouldReturnRestriction() {
-        String cpf = "60094146012";
-        MessageV1 message = restrictionsApiService.queryCpfWithRestriction(cpf);
-
-        assertThat(message.getMessage()).contains(cpf);
-    }
-
-    @Test
-    void shouldReturnNoRestriction() {
-        boolean isRestricted = restrictionsApiService.queryCpf("123456789");
-        assertThat(isRestricted).isFalse();
+    public Response queryCpf(String cpf) {
+        return restrictionsApi.oneUsingGET().cpfPath(cpf).execute(identity());
     }
 }

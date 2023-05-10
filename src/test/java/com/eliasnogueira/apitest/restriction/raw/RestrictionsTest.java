@@ -21,27 +21,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package se.jfokus.workshop.restassured.specification;
+package com.eliasnogueira.apitest.restriction.raw;
 
-import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.builder.ResponseSpecBuilder;
-import io.restassured.specification.RequestSpecification;
-import io.restassured.specification.ResponseSpecification;
+import org.apache.http.HttpStatus;
+import org.hamcrest.CoreMatchers;
+import org.junit.jupiter.api.Test;
+import com.eliasnogueira.apitest.BaseApiConfiguration;
 
-import static org.apache.http.HttpStatus.SC_OK;
-import static org.hamcrest.CoreMatchers.is;
+import static io.restassured.RestAssured.given;
 
-public final class RestrictionsSpecifications {
+class RestrictionsTest extends BaseApiConfiguration {
 
-    private RestrictionsSpecifications() {
+    @Test
+    void shouldQueryCpfWithoutRestriction() {
+        given()
+            .param("cpf", "1234567890")
+        .when()
+            .get("/restrictions/{cpf}")
+        .then()
+            .statusCode(HttpStatus.SC_NOT_FOUND);
     }
 
-    public static RequestSpecification cpfRequest(String cpfValue) {
-        return new RequestSpecBuilder().addParam("cpf", cpfValue).build();
+    @Test
+    void shouldReturnRestriction() {
+        given()
+            .param("cpf", "60094146012")
+        .when()
+            .get("/restrictions/{cpf}")
+        .then()
+            .statusCode(HttpStatus.SC_OK)
+            .body("message", CoreMatchers.is("60094146012"));
     }
-
-    public static ResponseSpecification messageResponse(String expected) {
-        return new ResponseSpecBuilder().expectStatusCode(SC_OK).expectBody("message", is(expected)).build();
-    }
-
 }

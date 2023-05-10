@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package se.jfokus.workshop.restassured.specification;
+package com.eliasnogueira.apitest.restassured.specification;
 
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
@@ -30,7 +30,7 @@ import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matchers;
-import se.jfokus.workshop.models.Simulation;
+import com.eliasnogueira.apitest.models.Simulation;
 
 import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.apache.http.HttpStatus.SC_OK;

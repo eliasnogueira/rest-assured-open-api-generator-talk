@@ -21,13 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package se.jfokus.workshop.simulation.spec;
+package com.eliasnogueira.apitest.simulation.spec;
 
+import com.eliasnogueira.apitest.BaseApiConfiguration;
+import com.eliasnogueira.apitest.models.Simulation;
+import com.eliasnogueira.apitest.restassured.specification.SimulationsSpecifications;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
-import se.jfokus.workshop.BaseApiConfiguration;
-import se.jfokus.workshop.models.Simulation;
-import se.jfokus.workshop.restassured.specification.SimulationsSpecifications;
 
 import java.math.BigDecimal;
 

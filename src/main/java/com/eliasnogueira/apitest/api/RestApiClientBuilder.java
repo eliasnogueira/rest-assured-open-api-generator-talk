@@ -21,30 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package se.jfokus.workshop;
+package com.eliasnogueira.apitest.api;
 
-import io.restassured.config.JsonConfig;
-import io.restassured.config.RestAssuredConfig;
-import io.restassured.filter.log.RequestLoggingFilter;
-import io.restassured.filter.log.ResponseLoggingFilter;
-import io.restassured.path.json.config.JsonPathConfig;
-import org.junit.jupiter.api.BeforeAll;
+import io.restassured.builder.RequestSpecBuilder;
 
-import static io.restassured.RestAssured.*;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
-public class BaseApiConfiguration {
+public class RestApiClientBuilder {
 
-    @BeforeAll
-    static void mainConfiguration() {
-        baseURI = "http://localhost";
-        basePath = "/api/v1";
-        port = 8088;
+    public <T> T build(Function<Supplier<RequestSpecBuilder>, T> clientCreator) {
+        Supplier<RequestSpecBuilder> requestSpecBuilderSupplier = () -> new RequestSpecBuilder()
+                .addRequestSpecification(
+                        new RequestSpecBuilder()
+                                .setBaseUri("http://localhost")
+                                .setPort(8088)
+                                .build());
 
-        config = RestAssuredConfig.newConfig().jsonConfig(
-                JsonConfig.jsonConfig().numberReturnType(JsonPathConfig.NumberReturnType.BIG_DECIMAL));
-
-        enableLoggingOfRequestAndResponseIfValidationFails();
-
-        filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
+        return clientCreator.apply(requestSpecBuilderSupplier);
     }
 }

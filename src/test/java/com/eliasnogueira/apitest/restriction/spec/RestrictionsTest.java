@@ -21,23 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package se.jfokus.workshop.api;
+package com.eliasnogueira.apitest.restriction.spec;
 
-import io.restassured.builder.RequestSpecBuilder;
+import com.eliasnogueira.apitest.restassured.specification.RestrictionsSpecifications;
+import org.apache.http.HttpStatus;
+import org.junit.jupiter.api.Test;
+import com.eliasnogueira.apitest.BaseApiConfiguration;
 
-import java.util.function.Function;
-import java.util.function.Supplier;
+import static io.restassured.RestAssured.given;
 
-public class RestApiClientBuilder {
+class RestrictionsTest extends BaseApiConfiguration {
 
-    public <T> T build(Function<Supplier<RequestSpecBuilder>, T> clientCreator) {
-        Supplier<RequestSpecBuilder> requestSpecBuilderSupplier = () -> new RequestSpecBuilder()
-                .addRequestSpecification(
-                        new RequestSpecBuilder()
-                                .setBaseUri("http://localhost")
-                                .setPort(8088)
-                                .build());
+    @Test
+    void shouldQueryCpfWithoutRestriction() {
+        given()
+            .spec(RestrictionsSpecifications.cpfRequest("1234567890"))
+        .when()
+            .get("/restrictions/{cpf}")
+        .then()
+            .statusCode(HttpStatus.SC_NOT_FOUND);
+    }
 
-        return clientCreator.apply(requestSpecBuilderSupplier);
+    @Test
+    void shouldReturnRestriction() {
+        given()
+            .spec(RestrictionsSpecifications.cpfRequest("60094146012"))
+        .when()
+            .get("/restrictions/{cpf}")
+        .then()
+            .spec(RestrictionsSpecifications.messageResponse("60094146012"));
     }
 }
