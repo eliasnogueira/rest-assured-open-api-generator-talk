@@ -34,6 +34,6 @@ public class RestrictionsApiClient {
     private final RestrictionsApi restrictionsApi = new RestApiClientBuilder().build(RestrictionsApi::restrictions);
 
     public Response queryCpf(String cpf) {
-        return restrictionsApi.oneUsingGET().cpfPath(cpf).execute(identity());
+        return restrictionsApi.getRestrictionV1().cpfPath(cpf).execute(identity());
     }
 }
