@@ -21,12 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package com.eliasnogueira.apitest.models;
 
 import java.math.BigDecimal;
 
-public class Simulation {
-
+public class SimulationBuilder {
     private String name;
     private String cpf;
     private String email;
@@ -34,40 +34,37 @@ public class Simulation {
     private int installments;
     private boolean insurance;
 
-    public Simulation(String name, String cpf, String email, BigDecimal amount, int installments, boolean insurance) {
+    public SimulationBuilder name(String name) {
         this.name = name;
+        return this;
+    }
+
+    public SimulationBuilder cpf(String cpf) {
         this.cpf = cpf;
+        return this;
+    }
+
+    public SimulationBuilder email(String email) {
         this.email = email;
+        return this;
+    }
+
+    public SimulationBuilder amount(BigDecimal amount) {
         this.amount = amount;
+        return this;
+    }
+
+    public SimulationBuilder installments(int installments) {
         this.installments = installments;
+        return this;
+    }
+
+    public SimulationBuilder insurance(boolean insurance) {
         this.insurance = insurance;
+        return this;
     }
 
-    public String getCpf() {
-        return cpf;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public int getInstallments() {
-        return installments;
-    }
-
-    public boolean isInsurance() {
-        return insurance;
-    }
-
-    public static SimulationBuilder builder() {
-        return new SimulationBuilder();
+    public Simulation build() {
+        return new Simulation(name, cpf, email, amount, installments, insurance);
     }
 }
