@@ -55,14 +55,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Runtime libraries -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- OpenAPI generation libraries -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
