@@ -44,8 +44,5 @@ jobs:
       - name: Resolve dependencies
         run: mvn dependency:resolve
 
-      - name: Generate sources
-        run: mvn -q -B -DskipTests clean compile
-
       - name: Test
-        run: mvn -q -B test
+        run: mvn clean test -q -B
