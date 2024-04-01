@@ -5,7 +5,7 @@ the [How to fast generate your API Test with OpenAPI Tools and REST Assured](htt
 
 Please, take a look at the presentation.
 
-## Backend project
+## 1. Backend project
 
 The backend project was created using SpringBoot 3 and an in-memory database. You access it
 at [https://github.com/eliasnogueira/credit-api](https://github.com/eliasnogueira/credit-api).
@@ -17,22 +17,17 @@ You can use **one of the following approaches** to use the application:
 1. Start your Docker Desktop
 2. Pull the [eliasnogueira/combined-credit-api](https://hub.docker.com/r/eliasnogueira/combined-credit-api)^140MB^ from
    Docker Hub
-
-```
-docker pull eliasnogueira/combined-credit-api
-```
-
+    ```
+    docker pull eliasnogueira/combined-credit-api
+    ```
 3. Start the application container
-
-```
-docker run --name credit-api -p 8088:8088 -d eliasnogueira/combined-credit-api
-```
-
+    ```
+    docker run --name credit-api -p 8088:8088 -d eliasnogueira/combined-credit-api
+    ```
 4. If you need to stop it, run
-
-```
-docker stop credit-api
-```
+    ```
+    docker stop credit-api
+   ```
 
 ### JAR file
 
@@ -40,61 +35,52 @@ docker stop credit-api
    GitHub: [https://github.com/eliasnogueira/credit-api/packages/1742648](https://github.com/eliasnogueira/credit-api/packages/1742648)
 2. In the *Assets* session, download the `.jar` file
 3. Open the Terminal and navigate to the folder the file was saved
-
-```
-cd Downloads
-```
-
+    ```
+    cd Downloads
+    ```
 4. Start the application by running the following:
-
-```
-java -jar file-name.jar
-```
+    ```
+    java -jar file-name.jar
+    ```
 
 ### Direct project usage
 
 1. Clone the backend project running one of the following cloning methods:
-
-   HTTPS
-    ```
-    git clone https://github.com/eliasnogueira/credit-api.git
-    ```
-
-   SSH
-    ```
-    git clone git@github.com:eliasnogueira/credit-api.git
-    ```
-
-   GitHub CLI
-    ```
-    gh repo clone eliasnogueira/credit-api
-    ```
-   Download ZIP"
-   [https://github.com/eliasnogueira/credit-api/archive/refs/heads/main.zip](https://github.com/eliasnogueira/credit-api/archive/refs/heads/main.zip)
-
+    * HTTPS
+       ```
+       git clone https://github.com/eliasnogueira/credit-api.git
+       ```
+    * SSH
+       ```
+       git clone git@github.com:eliasnogueira/credit-api.git
+       ```
+    * GitHub CLI
+       ```
+       gh repo clone eliasnogueira/credit-api
+       ```
+      Download ZIP"
+      [https://github.com/eliasnogueira/credit-api/archive/refs/heads/main.zip](https://github.com/eliasnogueira/credit-api/archive/refs/heads/main.zip)
 2. Open the Terminal and navigate to the project directory
 3. Run the application
+    ```
+    mvn spring-boot:run
+    ```
 
-```
-mvn spring-boot:run
-```
-
-!!! note "Running inside the IDE"
+### Running inside the IDE
 
 You can also run the `CreditApiApplication` class located at `src/main/java`
 
-## What will you find here
+## 2. What will you find here
 
 ### Source
 
 All references are from the `src/main/java` folder.
 
-* `se.jfokus.workshop.models` have a Model/POJO class for the Simulation request and response
-* `se.jfokus.workshop.restassured.specification` have the request and response specifications for each API
-* `se.jfokus.workshop.api` have the RestApiClientBuilder to build the auto-generated clients from the OpenAPI generator
-* `se.jfokus.workshop.api.client` have the Restrictions API Client implementation example using the auto-generated
+* `com.eliasnogueira.apitest.models` have a Model/POJO class for the Simulation request and response
+* `com.eliasnogueira.apitest.restassured.specification` have the request and response specifications for each API
+* `com.eliasnogueira.apitest.client` have the Restrictions API Client implementation example using the auto-generated
   client from the OpenAPI tools
-* `se.jfokus.workshop.api.service` have the Restrictions Service implementation based on its client
+* `com.eliasnogueira.apitest.service` have the Restrictions Service implementation based on its client
 
 ### Tests
 
@@ -102,11 +88,13 @@ All references are from the `src/test/java` folder.
 
 * `BaseApConfiguration` as the BaseTest class to configure the application endpoints and general config
     * note: the `RestAssured.basePath` is not necessary when running the *architecture* tests
-* `se.jfokus.workshop.*.raw` package: you will find the "raw" REST Assured tests using it basic `given - when - then`
+* `com.eliasnogueira.apitest.*.raw` package: you will find the "raw" REST Assured tests using it
+  basic `given - when - then`
   syntax
-* `se.jfokus.workshop.*.spec` package: you will find the REST Assured tests using the Request and Response
+* `com.eliasnogueira.apitest.*.spec` package: you will find the REST Assured tests using the Request and Response
   Specifications
-* *`se.jfokus.workshop.*.architecture` package: you will find the REST Assured tests using an architecture based on
+* *`com.eliasnogueira.apitest.*.architecture` package: you will find the REST Assured tests using an architecture based
+  on
   client and services abstractions together with the generated OpenAPI client
 
 ### pom.xml
