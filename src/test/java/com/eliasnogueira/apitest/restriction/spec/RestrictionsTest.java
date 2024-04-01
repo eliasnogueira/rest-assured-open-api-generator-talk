@@ -49,6 +49,6 @@ class RestrictionsTest extends BaseApiConfiguration {
         .when()
             .get("/restrictions/{cpf}")
         .then()
-            .spec(RestrictionsSpecifications.messageResponse("60094146012"));
+            .spec(RestrictionsSpecifications.messageResponse("CPF 60094146012 has a restriction"));
     }
 }

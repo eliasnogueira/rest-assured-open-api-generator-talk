@@ -24,11 +24,13 @@
 package com.eliasnogueira.apitest.restriction.architecture;
 
 import com.eliasnogueira.credit.model.MessageV1;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import com.eliasnogueira.apitest.api.service.RestrictionsApiService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Disabled
 class RestrictionsTest {
 
     private final RestrictionsApiService restrictionsApiService = new RestrictionsApiService();

@@ -23,8 +23,11 @@
  */
 package com.eliasnogueira.apitest.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.math.BigDecimal;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Simulation {
 
     private String name;
@@ -33,6 +36,9 @@ public class Simulation {
     private BigDecimal amount;
     private int installments;
     private boolean insurance;
+
+    public Simulation() {
+    }
 
     public Simulation(String name, String cpf, String email, BigDecimal amount, int installments, boolean insurance) {
         this.name = name;

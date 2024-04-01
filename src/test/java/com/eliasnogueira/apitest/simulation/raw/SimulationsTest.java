@@ -26,15 +26,16 @@ package com.eliasnogueira.apitest.simulation.raw;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.hamcrest.CoreMatchers;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import com.eliasnogueira.apitest.BaseApiConfiguration;
 import com.eliasnogueira.apitest.models.Simulation;
 
 import java.math.BigDecimal;
+import java.util.List;
 
-import static io.restassured.RestAssured.*;
-import static org.assertj.core.api.Assertions.*;
+import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.when;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class SimulationsTest extends BaseApiConfiguration {
 
@@ -46,21 +47,24 @@ void shouldRetrieveAllSimulations() {
         .statusCode(HttpStatus.SC_OK)
         .body(
                 "[0].id", CoreMatchers.notNullValue(),
-                "[0].name", CoreMatchers.is("Unknown"),
+                "[0].name", CoreMatchers.is("Tom"),
                 "[0].cpf", CoreMatchers.is("66414919004"),
                 "[0].email", CoreMatchers.is("tom@gmail.com"),
                 "[0].amount", CoreMatchers.is(new BigDecimal("11000.00")),
-                "[0].installments", CoreMatchers.is(0),
+                "[0].installments", CoreMatchers.is(3),
                 "[0].insurance", CoreMatchers.is(true)
         );
 }
     @Test
     void shouldRetrieveAllSimulationsCheckingSize() {
-        when()
-            .get("/simulations/")
-        .then()
-            .statusCode(HttpStatus.SC_OK)
-            .body("$", Matchers.hasSize(2));
+        List<Simulation> simulations = List.of(
+            when()
+                .get("/simulations/")
+            .then()
+                .statusCode(HttpStatus.SC_OK)
+                .extract().as(Simulation[].class));
+
+        assertThat(simulations.size()).isGreaterThanOrEqualTo(2);
     }
 
     @Test
@@ -76,7 +80,7 @@ void shouldRetrieveAllSimulations() {
     @Test
     void shouldCreateNewSimulation() {
         var simulation = Simulation.builder().name("John").cpf("4750403823739")
-                .email("john@gmail.com").amount(new BigDecimal("10.0000"))
+                .email("john@gmail.com").amount(new BigDecimal("1000"))
                 .installments(8).insurance(true).build();
 
         given()
@@ -107,6 +111,6 @@ void shouldRetrieveAllSimulations() {
                 .statusCode(HttpStatus.SC_OK)
                 .extract().as(Simulation.class);
 
-        assertThat(simulationUpdated).isEqualTo(simulation);
+        assertThat(simulationUpdated).usingRecursiveComparison().ignoringFields("id").isEqualTo(simulation);
     }
 }

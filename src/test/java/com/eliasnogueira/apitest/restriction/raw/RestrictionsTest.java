@@ -35,7 +35,7 @@ class RestrictionsTest extends BaseApiConfiguration {
     @Test
     void shouldQueryCpfWithoutRestriction() {
         given()
-            .param("cpf", "1234567890")
+            .pathParam("cpf", "1234567890")
         .when()
             .get("/restrictions/{cpf}")
         .then()
@@ -45,11 +45,11 @@ class RestrictionsTest extends BaseApiConfiguration {
     @Test
     void shouldReturnRestriction() {
         given()
-            .param("cpf", "60094146012")
+            .pathParam("cpf", "60094146012")
         .when()
             .get("/restrictions/{cpf}")
         .then()
             .statusCode(HttpStatus.SC_OK)
-            .body("message", CoreMatchers.is("60094146012"));
+            .body("message", CoreMatchers.is("CPF 60094146012 has a restriction"));
     }
 }

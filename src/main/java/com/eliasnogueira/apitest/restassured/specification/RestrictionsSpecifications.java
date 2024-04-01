@@ -37,7 +37,7 @@ public final class RestrictionsSpecifications {
     }
 
     public static RequestSpecification cpfRequest(String cpfValue) {
-        return new RequestSpecBuilder().addParam("cpf", cpfValue).build();
+        return new RequestSpecBuilder().addPathParam("cpf", cpfValue).build();
     }
 
     public static ResponseSpecification messageResponse(String expected) {

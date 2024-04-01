@@ -41,8 +41,7 @@ public final class SimulationsSpecifications {
     }
 
     public static RequestSpecification cpfParam(String cpfValue) {
-        new RequestSpecBuilder().addParam("cpf", cpfValue).build();
-        return null;
+        return new RequestSpecBuilder().addPathParam("cpf", cpfValue).build();
     }
 
     public static RequestSpecification bodyParam(Simulation simulation) {
@@ -50,7 +49,7 @@ public final class SimulationsSpecifications {
     }
 
     public static RequestSpecification bodyAndParam(Simulation simulation, String cpfValue) {
-        return new RequestSpecBuilder().addParam("cpf", cpfValue)
+        return new RequestSpecBuilder().addPathParam("cpf", cpfValue)
                 .setBody(simulation).setContentType(ContentType.JSON).build();
     }
 

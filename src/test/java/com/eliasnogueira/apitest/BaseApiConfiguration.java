@@ -30,9 +30,14 @@ import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.path.json.config.JsonPathConfig;
 import org.junit.jupiter.api.BeforeAll;
 
-import static io.restassured.RestAssured.*;
+import static io.restassured.RestAssured.basePath;
+import static io.restassured.RestAssured.baseURI;
+import static io.restassured.RestAssured.config;
+import static io.restassured.RestAssured.enableLoggingOfRequestAndResponseIfValidationFails;
+import static io.restassured.RestAssured.filters;
+import static io.restassured.RestAssured.port;
 
-public class BaseApiConfiguration {
+public abstract class BaseApiConfiguration {
 
     @BeforeAll
     static void mainConfiguration() {

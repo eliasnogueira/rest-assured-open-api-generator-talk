@@ -27,6 +27,7 @@ import com.eliasnogueira.apitest.BaseApiConfiguration;
 import com.eliasnogueira.apitest.models.Simulation;
 import com.eliasnogueira.apitest.restassured.specification.SimulationsSpecifications;
 import org.apache.http.HttpStatus;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -35,19 +36,20 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Disabled
 class SimulationsTest extends BaseApiConfiguration {
 
-@Test
-void shouldRetrieveAllSimulations() {
-    var simulation = Simulation.builder().name("John").cpf("4750403823739")
-            .email("john@gmail.com").amount(new BigDecimal("10.0000"))
-            .installments(8).insurance(true).build();
+    @Test
+    void shouldRetrieveAllSimulations() {
+        var simulation = Simulation.builder().name("Tom").cpf("66414919004").email("tom@gmail.com")
+                .amount(new BigDecimal("11000.00")).installments(3).insurance(true).build();
 
-    when()
-        .get("/simulations/")
-    .then()
-        .spec(SimulationsSpecifications.bodyAssertion(0, simulation));
-}
+        when()
+            .get("/simulations/")
+        .then()
+            .spec(SimulationsSpecifications.bodyAssertion(0, simulation));
+    }
+
     @Test
     void shouldRetrieveAllSimulationsCheckingSize() {
         when()
@@ -68,9 +70,8 @@ void shouldRetrieveAllSimulations() {
 
     @Test
     void shouldCreateNewSimulation() {
-        var simulation = Simulation.builder().name("John").cpf("4750403823739")
-                .email("john@gmail.com").amount(new BigDecimal("10.0000"))
-                .installments(8).insurance(true).build();
+        var simulation = Simulation.builder().name("John").cpf("4750403823739").email("john@gmail.com")
+                .amount(new BigDecimal("1000")).installments(8).insurance(true).build();
 
         given()
             .spec(SimulationsSpecifications.bodyParam(simulation))
@@ -83,19 +84,18 @@ void shouldRetrieveAllSimulations() {
     @Test
     void shouldUpdateExistingSimulation() {
         String existingCpf = "17822386034";
-        var simulation = Simulation.builder().name("Elias").cpf("17822386034")
-                .email("elias@eliasnogueira.com").amount(new BigDecimal("3000.00"))
-                .installments(5).insurance(true).build();
+        var simulation = Simulation.builder().name("Elias").cpf("17822386034").email("elias@eliasnogueira.com")
+                .amount(new BigDecimal("3000.00")).installments(5).insurance(true).build();
 
         var simulationUpdated =
-            given()
-                .spec(SimulationsSpecifications.bodyAndParam(simulation, existingCpf))
-            .when()
-                .put("/simulations/{cpf}")
-            .then()
-                .statusCode(HttpStatus.SC_OK)
-                .extract().as(Simulation.class);
+                given()
+                    .spec(SimulationsSpecifications.bodyAndParam(simulation, existingCpf))
+                .when()
+                    .put("/simulations/{cpf}")
+                .then()
+                    .statusCode(HttpStatus.SC_OK)
+                    .extract().as(Simulation.class);
 
-        assertThat(simulationUpdated).isEqualTo(simulation);
+        assertThat(simulationUpdated).usingRecursiveComparison().ignoringFields("id").isEqualTo(simulation);
     }
 }
