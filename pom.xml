@@ -22,9 +22,9 @@
         <junit-jupiter.version>5.10.2</junit-jupiter.version>
         <rest-assured.version>5.4.0</rest-assured.version>
         <assertj-core.version>3.25.3</assertj-core.version>
-        <jackson-databind.version>2.16.0</jackson-databind.version>
+        <jackson-databind.version>2.17.0</jackson-databind.version>
         <swagger-annotations.version>2.2.21</swagger-annotations.version>
-        <jakarta.annotation-api.version>3.0.0-M1</jakarta.annotation-api.version>
+        <jakarta.annotation-api.version>3.0.0</jakarta.annotation-api.version>
         <jsr305.version>3.0.2</jsr305.version>
         <jackson-datatype-jsr310.version>2.17.0</jackson-datatype-jsr310.version>
         <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
