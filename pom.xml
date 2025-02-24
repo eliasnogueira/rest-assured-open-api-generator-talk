@@ -6,31 +6,31 @@
 
     <groupId>com.eliasnogueira</groupId>
     <artifactId>rest-assured-open-api-generator-talk</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.3-SNAPSHOT</version>
     <name>rest-assured-open-api-generator</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.target>22</maven.compiler.target>
-        <maven.compiler.source>22</maven.compiler.source>
+        <maven.compiler.target>23</maven.compiler.target>
+        <maven.compiler.source>23</maven.compiler.source>
 
-        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
         <wagon-maven-plugin.version>2.0.2</wagon-maven-plugin.version>
-        <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
-        <openapi-generator-maven-plugin.version>7.4.0</openapi-generator-maven-plugin.version>
+        <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
+        <openapi-generator-maven-plugin.version>7.11.0</openapi-generator-maven-plugin.version>
 
-        <junit-jupiter.version>5.10.2</junit-jupiter.version>
-        <rest-assured.version>5.4.0</rest-assured.version>
-        <assertj-core.version>3.25.3</assertj-core.version>
-        <jackson-databind.version>2.17.0</jackson-databind.version>
+        <junit-jupiter.version>5.12.0</junit-jupiter.version>
+        <rest-assured.version>5.5.1</rest-assured.version>
+        <assertj-core.version>3.27.3</assertj-core.version>
+        <jackson-databind.version>2.18.2</jackson-databind.version>
         <swagger-annotations.version>2.2.21</swagger-annotations.version>
         <jakarta.annotation-api.version>3.0.0</jakarta.annotation-api.version>
         <jsr305.version>3.0.2</jsr305.version>
-        <jackson-datatype-jsr310.version>2.17.0</jackson-datatype-jsr310.version>
+        <jackson-datatype-jsr310.version>2.18.2</jackson-datatype-jsr310.version>
         <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
 
         <!-- security updates -->
-        <commons-codec.version>1.16.1</commons-codec.version>
+        <commons-codec.version>1.18.0</commons-codec.version>
     </properties>
 
     <dependencies>
