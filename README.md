@@ -3,7 +3,7 @@
 This repo is directly linked with
 the [How to fast generate your API Test with OpenAPI Tools and REST Assured](https://speakerdeck.com/eliasnogueira/how-to-fast-generate-your-api-test-with-openapi-tools-and-rest-assured)
 
-Please, take a look at the presentation.
+Please take a look at the presentation.
 
 ## 1. Backend project
 
@@ -112,4 +112,4 @@ classes (from the Maven compile lifecycle and on).
 
 You now have the Open API spec downloaded in your project, so it's possible to generate its client and classes using
 the `openapi-generator-maven-plugin`.
-Don't forget to add the `targed/generated-sources` folder as the `Generated Resources Root` in your IDE.
+Remember to add the `targed/generated-sources` folder as the `Generated Resources Root` in your IDE.
